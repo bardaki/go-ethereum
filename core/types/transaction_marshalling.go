@@ -19,7 +19,6 @@ package types
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -61,22 +60,13 @@ func (t *Transaction) MarshalJSON() ([]byte, error) {
 	// Other fields are set conditionally depending on tx type.
 	switch tx := t.inner.(type) {
 	case *LegacyTx:
-		fmt.Printf("++++++++++++++++++++++++++++++++++++++++++++")
-		fmt.Printf("tx.V: %v\n", tx.V)
-		if tx.V != big.NewInt(4479) && tx.V != big.NewInt(4480) {
-			tx.V = big.NewInt(4479)
-			enc.V = (*hexutil.Big)(big.NewInt(4479))
-		} else {
-			enc.V = (*hexutil.Big)(tx.V)
-		}
-		fmt.Printf("enc.V: %v\n", enc.V)
 		enc.Nonce = (*hexutil.Uint64)(&tx.Nonce)
 		enc.Gas = (*hexutil.Uint64)(&tx.Gas)
 		enc.GasPrice = (*hexutil.Big)(tx.GasPrice)
 		enc.Value = (*hexutil.Big)(tx.Value)
 		enc.Data = (*hexutil.Bytes)(&tx.Data)
 		enc.To = t.To()
-		// enc.V = (*hexutil.Big)(big.NewInt(4479)) //(tx.V)
+		enc.V = (*hexutil.Big)(tx.V)
 		enc.R = (*hexutil.Big)(tx.R)
 		enc.S = (*hexutil.Big)(tx.S)
 	case *AccessListTx:
@@ -147,14 +137,7 @@ func (t *Transaction) UnmarshalJSON(input []byte) error {
 		if dec.V == nil {
 			return errors.New("missing required field 'v' in transaction")
 		}
-		fmt.Printf("++++++++++++++++++++++++++++++++++++++++++++")
-		fmt.Printf("dec.V: %v\n", dec.V)
 		itx.V = (*big.Int)(dec.V)
-		fmt.Printf("itx.V: %v\n", itx.V)
-		if itx.V != big.NewInt(4479) && itx.V != big.NewInt(4480) {
-			itx.V = big.NewInt(4479)
-		}
-		fmt.Printf("itx.V: %v\n", itx.V)
 		if dec.R == nil {
 			return errors.New("missing required field 'r' in transaction")
 		}
