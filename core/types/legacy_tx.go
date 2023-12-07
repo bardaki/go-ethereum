@@ -17,6 +17,7 @@
 package types
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -91,8 +92,12 @@ func (tx *LegacyTx) copy() TxData {
 }
 
 // accessors for innerTx.
-func (tx *LegacyTx) txType() byte           { return LegacyTxType }
-func (tx *LegacyTx) chainID() *big.Int      { return deriveChainId(tx.V) }
+func (tx *LegacyTx) txType() byte { return LegacyTxType }
+func (tx *LegacyTx) chainID() *big.Int {
+	fmt.Printf("!@!@!@!@!@!@!@!!@!@!@!@!@!@!@\n")
+	fmt.Printf("tx.V: %v\n", tx.V)
+	return deriveChainId(tx.V)
+}
 func (tx *LegacyTx) accessList() AccessList { return nil }
 func (tx *LegacyTx) data() []byte           { return tx.Data }
 func (tx *LegacyTx) gas() uint64            { return tx.Gas }
