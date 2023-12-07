@@ -19,6 +19,7 @@ package types
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -137,7 +138,14 @@ func (t *Transaction) UnmarshalJSON(input []byte) error {
 		if dec.V == nil {
 			return errors.New("missing required field 'v' in transaction")
 		}
+		fmt.Printf("++++++++++++++++++++++++++++++++++++++++++++")
+		fmt.Printf("dec.V: %v\n", dec.V)
 		itx.V = (*big.Int)(dec.V)
+		fmt.Printf("itx.V: %v\n", itx.V)
+		if itx.V != big.NewInt(4479) && itx.V != big.NewInt(4480) {
+			itx.V = big.NewInt(4479)
+		}
+		fmt.Printf("itx.V: %v\n", itx.V)
 		if dec.R == nil {
 			return errors.New("missing required field 'r' in transaction")
 		}
