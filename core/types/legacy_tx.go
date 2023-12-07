@@ -96,7 +96,7 @@ func (tx *LegacyTx) txType() byte { return LegacyTxType }
 func (tx *LegacyTx) chainID() *big.Int {
 	fmt.Printf("!@!@!@!@!@!@!@!!@!@!@!@!@!@!@\n")
 	fmt.Printf("tx.V: %v\n", tx.V)
-	return deriveChainId(tx.V)
+	return big.NewInt(2222) //deriveChainId(tx.V)
 }
 func (tx *LegacyTx) accessList() AccessList { return nil }
 func (tx *LegacyTx) data() []byte           { return tx.Data }
